@@ -7,6 +7,7 @@ RUN set -x && \
     apt-get install -y \
         # Basic stuff
         curl \
+        git \
         unzip \
         wget \
         # bcrypt and friends
@@ -59,6 +60,13 @@ RUN set -x && \
     apt-get install -y nodejs && \
     npm install -g npm@6
 
+# Install latest Meteor version
+ENV METEOR_ALLOW_SUPERUSER 1
+RUN set -x && curl https://install.meteor.com/ | sh
+
+# Fix for missing locales (https://github.com/meteor/meteor/issues/4019)
+RUN echo "export LC_ALL=C.UTF-8" >> ~/.bashrc
+
 # Install SonarQube scanner
 ARG SONAR_SCANNER_VERSION=3.2.0.1227
 RUN set -x && \
@@ -74,7 +82,9 @@ RUN set -x && \
 
 # Healthcheck and version stats
 RUN set -x && \
+    git --version && \
     node --version && \
     npm --version && \
+    meteor --version && \
     sonar-scanner --version && \
     java -version
