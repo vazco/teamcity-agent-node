@@ -6,8 +6,10 @@ RUN set -x && \
     apt-get update -y && \
     apt-get install -y \
         # Basic stuff
+        bzip2 \
         curl \
         git \
+        tar \
         unzip \
         wget \
         # bcrypt and friends
