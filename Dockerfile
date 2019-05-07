@@ -66,6 +66,14 @@ RUN set -x && \
     unzip /tmp/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -d /usr/local && \
     ln -s /usr/local/sonar-scanner-${SONAR_SCANNER_VERSION}-linux/bin/sonar-scanner /usr/local/bin/sonar-scanner
 
+# Install Docker CLI
+ARG DOCKER_VERSION=18.06.3-ce
+RUN cd /tmp && \
+    set -x  && \
+    wget https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKER_VERSION}.tgz && \
+    tar -xf docker-${DOCKER_VERSION}.tgz && \
+    cp ./docker/docker /usr/local/bin
+
 # Clean excessive files
 RUN set -x && \
     apt-get clean && \
@@ -80,4 +88,5 @@ RUN set -x && \
     node --version && \
     npm --version && \
     java -version && \
-    sonar-scanner --version
+    sonar-scanner --version && \
+    docker --version
