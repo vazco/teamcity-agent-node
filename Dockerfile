@@ -1,5 +1,5 @@
 FROM jetbrains/teamcity-minimal-agent:latest
-MAINTAINER Maciej Stasieluk <maciej.stasieluk@vazco.eu>
+LABEL maintainer="Maciej Stasieluk <maciej.stasieluk@vazco.eu>"
 
 # Install dependecies
 RUN set -x && \
@@ -60,7 +60,7 @@ RUN set -x && \
     npm install -g npm@6
 
 # Install SonarQube scanner
-ARG SONAR_SCANNER_VERSION=3.2.0.1227
+ARG SONAR_SCANNER_VERSION=3.3.0.1492
 RUN set -x && \
     wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -P /tmp && \
     unzip /tmp/sonar-scanner-cli-${SONAR_SCANNER_VERSION}-linux.zip -d /usr/local && \
@@ -72,9 +72,12 @@ RUN set -x && \
     apt-get autoremove && \
     rm -rf /var/lib/apt/lists/* /var/cache/apt/* /tmp/*
 
+# Environment variables
+ENV JAVA_TOOL_OPTIONS="-XX:+UnlockExperimentalVMOptions"
+
 # Healthcheck and version stats
 RUN set -x && \
     node --version && \
     npm --version && \
-    sonar-scanner --version && \
-    java -version
+    java -version && \
+    sonar-scanner --version
