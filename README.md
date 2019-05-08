@@ -10,6 +10,7 @@ Includes (among others):
 
 - Node 10
 - npm 6
+- Meteor
 - SonarQube Scanner 3
 - JRE 8 (from `jetbrains/teamcity-minimal-agent`)
 
