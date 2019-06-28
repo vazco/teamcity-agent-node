@@ -1,5 +1,5 @@
 FROM jetbrains/teamcity-minimal-agent:latest
-LABEL maintainer="Maciej Stasieluk <maciej.stasieluk@vazco.eu>"
+LABEL maintainer="Vazco <developer@vazco.eu>"
 
 # Install dependecies
 RUN set -x && \
@@ -62,6 +62,13 @@ RUN set -x && \
     apt-get install -y nodejs && \
     npm install -g npm@6
 
+# Add yarn
+RUN set -x && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update -y && \
+    apt-get install -y yarn
+
 # Install latest Meteor version
 ENV METEOR_ALLOW_SUPERUSER 1
 RUN set -x && curl https://install.meteor.com/ | sh
@@ -98,6 +105,7 @@ RUN set -x && \
     git --version && \
     node --version && \
     npm --version && \
+    yarn --version && \
     meteor --version && \
     java -version && \
     sonar-scanner --version && \
